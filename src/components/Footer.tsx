@@ -1,5 +1,6 @@
 import { Facebook, Instagram } from 'lucide-react'
 import logo_black from "../assets/logo.png"
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -13,10 +14,11 @@ function Footer() {
                             <div className="w-full md:w-1/3 mb-8 md:mb-0">
                                 <h4 className="text-lg font-semibold mb-4 text">Quick Links</h4>
                                 <ul className="space-y-2">
-                                    <li><a href="#about" className="hover:text-[#9cff01] transition-colors ">About Us</a></li>
-                                    <li><a href="#services" className="hover:text-[#9cff01] transition-colors ">Services</a></li>
-                                    <li><a href="#testimonials" className="hover:text-[#9cff01] transition-colors ">Testimonials</a></li>
-                                    <li><a href="#events" className="hover:text-[#9cff01] transition-colors ">Events</a></li>
+                                    <li><Link to={"/terms-of-use"} className="hover:text-[#9cff01] transition-colors ">Terms of Use</Link></li>
+                                    <li><Link to={"/privacy-policy"} className="hover:text-[#9cff01] transition-colors ">Privacy Policy</Link></li>
+                                    <li><Link to={"/disclaimer"} className="hover:text-[#9cff01] transition-colors ">Disclaimer</Link></li>
+                                    <li><Link to={"/shipping-and-delivery-policy"} className="hover:text-[#9cff01] transition-colors ">Shipping and Delivery Policy</Link></li>
+                                    <li><Link to={"/refund-and-cancellation-policy"} className="hover:text-[#9cff01] transition-colors ">Refund and Cancellation Policy</Link></li>
                                 </ul>
                             </div>
                             <div className="w-full md:w-1/3">
