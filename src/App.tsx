@@ -14,6 +14,7 @@ import Disclaimer from "./pages/Disclaimer"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
 import RefundAndCancellationPolicy from "./pages/RefundAndCancellationPolicy"
 import ShippingAndDeliveryPolicy from "./pages/ShippingAndDeliveryPolicy"
+import Registration from "./pages/Registration"
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/joinus" element={<JoinUsPage />} />
+          <Route path="/registration" element={<Registration />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

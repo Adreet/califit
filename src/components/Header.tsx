@@ -95,6 +95,12 @@ function Header() {
           >
             Join Us
           </Link>
+          <Link
+            to={"/registration"}
+            className="inline-block bg-blue-500 text-white px-5 py-2 mr-3 rounded-full font-semibold transition hover:bg-[#8bce00]"
+          >
+            Registration
+          </Link>
         </div>
       </nav>
 
