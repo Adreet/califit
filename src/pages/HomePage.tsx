@@ -280,7 +280,7 @@ export default function HomePage() {
                             </FlyingElement>
 
                             <FlyingElement direction="right" delay={0.2}>
-                                <div className="md:w-full">
+                                <div className="md:w-full -mt-6">
                                     <p className="text-xl  mb-4">
                                         Califit is Northeast India’s only designated calisthenics center, founded by Bhaskar Saud, certified by the World Street Workout and Calisthenics Federation. We are committed to providing a holistic fitness approach that merges strength, agility, and bodyweight training to people of all ages.
                                     </p>
