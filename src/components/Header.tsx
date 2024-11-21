@@ -113,12 +113,24 @@ function Header() {
                 {navLabels[section]}
               </Link>
             ))}
+            <div className='mt-2'>
             <Link
               to={"/joinus"}
               className="inline-block bg-[#9cff01] text-black px-5 py-2 mx-3 rounded-full font-semibold transition hover:bg-[#8bce00]"
             >
               Join Us
             </Link>
+            
+            </div>
+            <div className='mb-4 mt-1'>
+            <Link
+              to={"/registration"}
+              className="inline-block mt-4 mb-4 bg-blue-500 text-white px-5 py-2 mx-3 rounded-full font-semibold transition hover:bg-[#8bce00]"
+            >
+              Registration
+            </Link>
+            </div>
+            
           </div>
         </div>
       )}
