@@ -1,355 +1,192 @@
-import React, { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import React, { useState } from 'react';
+import { useFormValidation } from '../hooks/useFormValidation';
+import ProgressBar from './ProgressBar';
+import BasicInformation from '../components/steps/BasicInformation';
+import ContactInformation from '../components/steps/ContactInformation';
+import EventCategory from '../components/steps/EventCategory';
+import PreviousExperience from '../components/steps/PreviousExperience';
+import HealthAndFitness from '../components/steps/HealthAndFitness';
+import JerseyAndFood from '../components/steps/JerseyAndFood';
+import Agreements from '../components/steps/Agreements';
+import PaymentDetails from '../components/steps/PaymentDetails';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+const initialState = {
+  basicInformation: {
+    fullName: '',
+    nickname: '',
+    dob: '',
+    gender: '',
+    nationality: '',
+  },
+  contactInformation: {
+    phoneNumber: '',
+    email: '',
+    emergencyContactName: '',
+    emergencyContactNumber: '',
+    relationshipWithEmergencyContact: '',
+  },
+  eventCategory: {
+    mainSportCategory: [],
+  },
+  previousExperience: {
+    participatedBefore: false,
+    yearsOfExperience: '',
+    notableAchievements: '',
+  },
+  healthAndFitness: {
+    medicalConditions: '',
+    currentFitnessLevel: '',
+    onMedication: false,
+    healthInsurance: false,
+  },
+  jerseyAndFood: {
+    jerseySize: '',
+  },
+  agreements: {
+    waiverAgreement: false,
+    mediaRelease: false,
+    codeOfConduct: false,
+  },
+  paymentDetails: {
+    transactionId: '',
+  },
+  submissionDetails: {
+    confirmed: false,
+    submissionDate: '',
+  },
+};
+
+const steps = [
+  'Basic Information',
+  'Contact Information',
+  'Event Category',
+  'Previous Experience',
+  'Health and Fitness',
+  'Jersey and Food',
+  'Agreements',
+  'Payment Details',
+];
 
 const Registration: React.FC = () => {
-    const [formData, setFormData] = useState<any>({});
-    const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
+  const { values, errors, isValid, handleChange, handleCustomChange } = useFormValidation(initialState, {});
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
-    const steps = [
-        { id: 1, title: "Basic Information" },
-        { id: 2, title: "Contact Information" },
-        { id: 3, title: "Event Category Selection" },
-        { id: 4, title: "Previous Experience" },
-        { id: 5, title: "Health & Fitness Details" },
-        { id: 6, title: "Jersey Size & Food Preference" },
-        { id: 7, title: "Terms and Agreements" },
-        { id: 8, title: "Payment & Registration Fees" },
-        { id: 9, title: "Athlete Signature & Date" },
-    ];
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
-    const renderSection = () => {
-        switch (currentStep) {
-            case 1:
-                return (
-                    <div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium">Full Name (as per ID)</label>
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Nickname/Stage Name (Optional)</label>
-                                <input
-                                    type="text"
-                                    name="nickname"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Date of Birth</label>
-                                <input
-                                    type="date"
-                                    name="dob"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Gender</label>
-                                <select
-                                    name="gender"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                >
-                                    <option value="">Select</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Nationality</label>
-                                <input
-                                    type="text"
-                                    name="nationality"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium">Phone Number</label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Email Address</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Emergency Contact Name</label>
-                                <input
-                                    type="text"
-                                    name="emergencyContactName"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Emergency Contact Number</label>
-                                <input
-                                    type="text"
-                                    name="emergencyContactNumber"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Relationship with Emergency Contact</label>
-                                <input
-                                    type="text"
-                                    name="relationship"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 3:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <label className="block text-sm font-medium">Main Sport Category</label>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {["Statics", "Freestyle", "Endurance Beginner", "Endurance Advanced", "Streetlifting"].map(
-                                    (category) => (
-                                        <div key={category} className="flex items-center space-x-2">
-                                            <input
-                                                type="checkbox"
-                                                name="sportCategory"
-                                                value={category}
-                                                onChange={handleInputChange}
-                                                className="w-4 h-4"
-                                            />
-                                            <label>{category}</label>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 4:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium">Have you participated in Cali Games before?</label>
-                                <div className="flex space-x-6">
-                                    <div className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="previousParticipation"
-                                            value="Yes"
-                                            onChange={handleInputChange}
-                                            className="w-4 h-4"
-                                        />
-                                        <label className="ml-2">Yes</label>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="previousParticipation"
-                                            value="No"
-                                            onChange={handleInputChange}
-                                            className="w-4 h-4"
-                                        />
-                                        <label className="ml-2">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Years of Experience in Selected Sport</label>
-                                <input
-                                    type="text"
-                                    name="yearsExperience"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Notable Achievements/Awards (if any)</label>
-                                <textarea
-                                    name="achievements"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                ></textarea>
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 5:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium">Medical Conditions/Allergies (if any)</label>
-                                <input
-                                    type="text"
-                                    name="medicalConditions"
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 6:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <label className="block text-sm font-medium">Jersey Size</label>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
-                                    <div key={size} className="flex items-center space-x-2">
-                                        <input
-                                            type="radio"
-                                            name="jerseySize"
-                                            value={size}
-                                            onChange={handleInputChange}
-                                            className="w-4 h-4"
-                                        />
-                                        <label>{size}</label>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 7:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <p className="text-sm">Please agree to our terms and conditions to proceed with the registration.</p>
-                            <div className="flex items-center space-x-2 mt-4">
-                                <input
-                                    type="checkbox"
-                                    name="termsAgreement"
-                                    onChange={handleInputChange}
-                                    className="w-4 h-4"
-                                />
-                                <label className="text-sm">I agree to the terms and conditions.</label>
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 8:
-                return (
-                    <div>
-                        <div className="space-y-4">
-                            <label className="block text-sm font-medium">Payment Status</label>
-                            <div className="flex space-x-6">
-                                <div className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="paymentStatus"
-                                        value="Paid"
-                                        onChange={handleInputChange}
-                                        className="w-4 h-4"
-                                    />
-                                    <label className="ml-2">Paid</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="paymentStatus"
-                                        value="Pending"
-                                        onChange={handleInputChange}
-                                        className="w-4 h-4"
-                                    />
-                                    <label className="ml-2">Pending</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
+  const handleSubmit = async (e: React.FormEvent<Element>) => {
+  e.preventDefault();
+  if (isValid) {
+    try {
+      const submissionData = {
+        ...values,
+        submissionDetails: {
+          confirmed: true,
+          submissionDate: new Date().toISOString(),
+        },
+      };
 
-    return (
-        <>
-            <Header />
+      const response = await fetch('http://localhost:5003/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
 
-            <div className=" lg:mx-20 mx-4 mt-32 p-6 space-y-6 bg-white rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-center text-gray-800">Cali Games 3.0 Athlete Registration Form</h1>
-
-                {/* Steps Navigation */}
-                <ol className="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg shadow-sm sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse overflow-x-auto">
-                    {steps.map((step, index) => (
-                        <li key={step.id} className={`flex items-center whitespace-nowrap ${index < steps.length - 1 ? 'after:content-[""] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-4 xl:after:mx-3 dark:after:border-gray-700' : ''}`}>
-                            <span
-                                className={`flex items-center ${index < steps.length - 1 ? 'after:content-["/"] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500' : ''}`}
-                            >
-                                <span
-                                    className={`flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0
-          ${currentStep === step.id ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-500 text-gray-500'}`}
-                                >
-                                    {step.id}
-                                </span>
-                                {step.title}
-                            </span>
-
-                        </li>
-                    ))}
-                </ol>
+      if (response.ok) {
+        alert('Registration successful!');
+        // Reset form or redirect to a success page
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData);
+        alert('Registration failed. Please check the form and try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred. Please try again later.');
+    }
+  } else {
+    alert('Please fill in all required fields correctly before submitting.');
+  }
+};
 
 
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return <BasicInformation values={values.basicInformation} errors={errors} handleChange={handleChange} />;
+      case 1:
+        return <ContactInformation values={values.contactInformation} errors={errors} handleChange={handleChange} />;
+      case 2:
+        return <EventCategory values={values.eventCategory} errors={errors} handleChange={handleCustomChange} />;
+      case 3:
+        return <PreviousExperience values={values.previousExperience} errors={errors} handleChange={handleChange} />;
+      case 4:
+        return <HealthAndFitness values={values.healthAndFitness} errors={errors} handleChange={handleChange} />;
+      case 5:
+        return <JerseyAndFood values={values.jerseyAndFood} errors={errors} handleChange={handleChange} />;
+      case 6:
+        return <Agreements values={values.agreements} errors={errors} handleChange={handleChange} />;
+      case 7:
+        return <PaymentDetails values={values.paymentDetails} errors={errors} handleChange={handleChange} handleSubmit={handleSubmit}/>;
+      default:
+        return null;
+    }
+  };
 
-                {/* Current Step Content */}
-                <div>{renderSection()}</div>
+  return (
+    <>
+    <Header/>
+      <div className="bg-white p-6 rounded-lg shadow-md space-y-8 container mx-auto px-4 py-8 mt-32">
+        <ProgressBar steps={steps} currentStep={currentStep} />
+        <form onSubmit={handleSubmit} className="mt-8">
+          {renderStep()}
+          <div className="mt-6 flex justify-between">
+            {currentStep > 0 && (
+              <button
+                type="button"
+                onClick={prevStep}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+              >
+                Previous
+              </button>
+            )}
+            {currentStep < steps.length - 1 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="hidden bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+      <Footer/>
+    </>
 
-                {/* Navigation Buttons */}
-                <div className="flex justify-between mt-6">
-                    <button
-                        onClick={() => currentStep > 1 && setCurrentStep(currentStep - 1)}
-                        className="px-6 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition-all"
-                    >
-                        Previous
-                    </button>
-                    <button
-                        onClick={() => currentStep < steps.length && setCurrentStep(currentStep + 1)}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
-                    >
-                        Next
-                    </button>
-                </div>
-            </div>
-            <Footer />
-        </>
-
-    );
+  );
 };
 
 export default Registration;
+
