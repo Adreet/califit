@@ -97,7 +97,7 @@ const Registration: React.FC = () => {
         },
       };
 
-      const response = await fetch('http://localhost:5003/api/register', {
+      const response = await fetch('https://califitcalisthenics.com/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

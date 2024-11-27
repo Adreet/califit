@@ -21,7 +21,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({ handleSubmit }) => {
     // Fetch order details or set default values
     const fetchOrderData = async () => {
       try {
-        const response = await fetch('http://localhost:5003/api/payment/create-order', {
+        const response = await fetch('https://califitcalisthenics.com/api/payment/create-order', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
